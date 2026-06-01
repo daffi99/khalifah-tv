@@ -36,6 +36,11 @@ export default async function WatchPage({ params }: WatchPageProps) {
   const mockViews = Math.floor(Math.random() * 900 + 100) + "K";
   const mockDate = "6 days ago";
 
+  // Shuffle related videos for a randomized feed
+  const shuffledRelatedVideos = relatedVideos 
+    ? [...relatedVideos].sort(() => Math.random() - 0.5) 
+    : [];
+
   return (
     <main className="min-h-screen bg-white flex justify-center selection:bg-primary/30">
       {/* Mobile constraint wrapper */}
@@ -83,7 +88,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
 
         {/* Interactive Related Videos Feed */}
         <div className="pb-24">
-          <WatchRelatedFeed initialVideos={relatedVideos || []} />
+          <WatchRelatedFeed initialVideos={shuffledRelatedVideos} />
         </div>
 
       </div>

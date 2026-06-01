@@ -35,7 +35,7 @@ export function WatchRelatedFeed({ initialVideos }: WatchRelatedFeedProps) {
   return (
     <>
       {/* Category Chips for Related Videos */}
-      <div className="sticky top-[56.25%] sm:top-auto z-40 bg-white border-b border-border/40 py-2">
+      <div className="bg-white border-b border-border/40 py-2">
         <CategoryChips
           categories={CATEGORIES}
           selectedCategory={selectedCategory}
