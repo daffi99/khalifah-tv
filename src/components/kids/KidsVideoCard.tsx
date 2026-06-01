@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Play } from "lucide-react";
+import { getProxyUrl } from "@/lib/utils";
 
 interface KidsVideoCardProps {
   id: string;
@@ -11,13 +12,15 @@ interface KidsVideoCardProps {
 }
 
 export function KidsVideoCard({ id, title, thumbnailUrl, duration, category }: KidsVideoCardProps) {
+  const safeThumbnailUrl = getProxyUrl(thumbnailUrl);
+
   return (
     <Link href={`/watch/${id}`} className="block">
       <div className="bg-white sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300">
         {/* Thumbnail Container */}
         <div className="relative aspect-video w-full bg-slate-100">
           <Image
-            src={thumbnailUrl}
+            src={safeThumbnailUrl || "/placeholder.svg"}
             alt={title}
             fill
             className="object-cover"

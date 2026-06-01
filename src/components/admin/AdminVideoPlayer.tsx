@@ -9,6 +9,7 @@ import {
   DefaultVideoLayout,
 } from "@vidstack/react/player/layouts/default";
 import { Film } from "lucide-react";
+import { getProxyUrl } from "@/lib/utils";
 
 interface AdminVideoPlayerProps {
   title: string;
@@ -21,6 +22,9 @@ export function AdminVideoPlayer({
   src,
   poster,
 }: AdminVideoPlayerProps) {
+  const safeSrc = getProxyUrl(src);
+  const safePoster = poster ? getProxyUrl(poster) : undefined;
+
   if (!src) {
     return (
       <div className="aspect-video rounded-xl bg-muted flex flex-col items-center justify-center gap-2 text-muted-foreground border border-border">
@@ -35,8 +39,8 @@ export function AdminVideoPlayer({
       <video
         controls
         playsInline
-        poster={poster}
-        src={src}
+        poster={safePoster}
+        src={safeSrc}
         className="w-full h-full object-contain"
         preload="metadata"
         controlsList="nodownload"

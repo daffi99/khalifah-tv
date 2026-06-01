@@ -8,6 +8,7 @@ import {
   defaultLayoutIcons,
   DefaultVideoLayout,
 } from "@vidstack/react/player/layouts/default";
+import { getProxyUrl } from "@/lib/utils";
 
 interface KidsWatchPlayerProps {
   title: string;
@@ -16,11 +17,14 @@ interface KidsWatchPlayerProps {
 }
 
 export function KidsWatchPlayer({ title, src, poster }: KidsWatchPlayerProps) {
+  const safeSrc = getProxyUrl(src);
+  const safePoster = getProxyUrl(poster);
+
   return (
     <MediaPlayer
       title={title}
-      src={{ src, type: 'video/mp4' }}
-      poster={poster}
+      src={{ src: safeSrc, type: 'video/mp4' }}
+      poster={safePoster}
       playsInline
       className="w-full h-full"
       autoPlay
