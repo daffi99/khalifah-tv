@@ -44,7 +44,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
   return (
     <main className="min-h-screen bg-white flex justify-center selection:bg-primary/30">
       {/* Mobile constraint wrapper */}
-      <div className="w-full max-w-md bg-white relative flex flex-col min-h-screen shadow-2xl overflow-y-auto overflow-x-hidden border-x border-border">
+      <div className="w-full max-w-md bg-white relative flex flex-col min-h-screen shadow-2xl overflow-y-auto overflow-x-hidden">
         
         {/* Sticky Player at the Top */}
         <div className="sticky top-0 z-50 w-full bg-black aspect-video">

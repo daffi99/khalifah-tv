@@ -27,7 +27,7 @@ export function AdminVideoPlayer({
   }
 
   return (
-    <div className="aspect-video rounded-xl overflow-hidden bg-black/90 relative group border border-border shadow-sm">
+    <div className="aspect-video rounded-xl overflow-hidden bg-black/90 relative group shadow-sm">
       <video
         controls
         playsInline
