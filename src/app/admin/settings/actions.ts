@@ -9,13 +9,20 @@ export async function updateAdminPin(formData: FormData) {
     return { error: "PIN must be exactly 4 digits." };
   }
 
-  // Update the PIN in the settings table
-  // Since we only have one settings row, we can just update all of them
+  // Delete all existing PINs to guarantee we only ever have exactly 1 setting row
+  const { error: deleteError } = await supabase
+    .from("settings")
+    .delete()
+    .neq("admin_pin", "imposiblestring"); // Dummy condition to allow wipe
+
+  if (deleteError) {
+    return { error: "Failed to update PIN. Ensure settings table exists." };
+  }
+
+  // Insert the fresh, single PIN row
   const { error } = await supabase
     .from("settings")
-    .update({ admin_pin: pin })
-    .neq("admin_pin", "imposiblestring") // Dummy condition to allow update without specific ID
-    ;
+    .insert({ admin_pin: pin });
 
   if (error) {
     return { error: "Failed to update PIN. Ensure settings table exists." };
