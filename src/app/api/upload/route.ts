@@ -61,8 +61,9 @@ export async function POST(request: NextRequest) {
     const thumbnailPresignedUrl = await getSignedUrl(r2Client, thumbnailCommand, { expiresIn: 3600 });
 
     // --- Build public URLs ---
-    const videoPublicUrl = `/cdn/${videoKey}`;
-    const thumbnailPublicUrl = `/cdn/${thumbnailKey}`;
+    const baseUrl = "https://video-proxy.daffiyashir.workers.dev";
+    const videoPublicUrl = `${baseUrl}/${videoKey}`;
+    const thumbnailPublicUrl = `${baseUrl}/${thumbnailKey}`;
 
     return NextResponse.json({
       videoPresignedUrl,
