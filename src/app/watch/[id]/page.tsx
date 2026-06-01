@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { supabase } from "@/lib/supabase/client";
 import { notFound } from "next/navigation";
 import { ChevronDown, Share2, ThumbsUp, MoreVertical } from "lucide-react";
