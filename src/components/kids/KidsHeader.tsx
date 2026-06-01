@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Settings, PlayCircle } from "lucide-react";
-import { PinGateModal } from "./PinGateModal";
 
 export function KidsHeader() {
-  const [isPinModalOpen, setIsPinModalOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -20,18 +19,13 @@ export function KidsHeader() {
 
         {/* Parent Settings Button */}
         <button
-          onClick={() => setIsPinModalOpen(true)}
+          onClick={() => router.push("/admin")}
           className="p-2 rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground transition-all active:scale-95"
           aria-label="Parent Settings"
         >
           <Settings className="h-6 w-6" />
         </button>
       </header>
-
-      <PinGateModal 
-        isOpen={isPinModalOpen} 
-        onClose={() => setIsPinModalOpen(false)} 
-      />
     </>
   );
 }
