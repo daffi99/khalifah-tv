@@ -49,12 +49,9 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
     : categories.find(c => c.slug === selectedCategorySlug)?.name || "All";
 
   return (
-    <>
+    <div className="flex-1 flex flex-col min-h-0">
       {/* Category Chips for Related Videos */}
-      <div 
-        className="sticky z-40 bg-white/95 backdrop-blur-md border-b border-border/40 py-2 shadow-sm"
-        style={{ top: 'min(56.25vw, 252px)' }}
-      >
+      <div className="bg-white border-b border-border/40 py-2 shadow-sm shrink-0">
         <CategoryChips
           categories={categoryLabels}
           selectedCategory={currentLabel}
@@ -62,23 +59,25 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
         />
       </div>
 
-      {/* Related Videos Feed */}
-      <div className="flex flex-col gap-0 sm:gap-4 bg-muted/10 pb-8 pt-2">
-        {filteredVideos && filteredVideos.length > 0 ? (
-          filteredVideos.map((rv) => (
-            <KidsVideoCard
-              key={rv.id}
-              id={rv.id}
-              title={rv.title}
-              category={rv.category}
-              duration={rv.duration}
-              thumbnailUrl={rv.thumbnail_url}
-            />
-          ))
-        ) : (
-          <p className="text-center text-muted-foreground py-8 text-sm">No related videos found.</p>
-        )}
+      {/* Related Videos Feed (Scrolling) */}
+      <div className="flex-1 overflow-y-auto bg-muted/10 pb-8 pt-2 scrollbar-hide">
+        <div className="flex flex-col gap-0 sm:gap-4">
+          {filteredVideos && filteredVideos.length > 0 ? (
+            filteredVideos.map((rv) => (
+              <KidsVideoCard
+                key={rv.id}
+                id={rv.id}
+                title={rv.title}
+                category={rv.category}
+                duration={rv.duration}
+                thumbnailUrl={rv.thumbnail_url}
+              />
+            ))
+          ) : (
+            <p className="text-center text-muted-foreground py-8 text-sm">No related videos found.</p>
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 }

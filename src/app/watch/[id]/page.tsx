@@ -52,10 +52,10 @@ export default async function WatchPage({ params }: WatchPageProps) {
   return (
     <main className="min-h-screen bg-white flex justify-center selection:bg-primary/30">
       {/* Mobile constraint wrapper */}
-      <div className="w-full max-w-md bg-white relative flex flex-col min-h-screen shadow-2xl overflow-y-auto overflow-x-hidden">
+      <div className="w-full max-w-md bg-white relative flex flex-col h-screen shadow-2xl overflow-hidden">
         
-        {/* Sticky Player at the Top */}
-        <div className="sticky top-0 z-50 w-full bg-black aspect-video">
+        {/* Fixed Player at the Top */}
+        <div className="w-full bg-black aspect-video shrink-0">
           <KidsWatchPlayer 
             title={video.title} 
             src={video.video_url} 
@@ -95,7 +95,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
         </div>
 
         {/* Interactive Related Videos Feed */}
-        <div className="pb-24">
+        <div className="flex-1 flex flex-col min-h-0 pb-16">
           <WatchRelatedFeed 
             initialVideos={shuffledRelatedVideos} 
             categories={categories || []}
