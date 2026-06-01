@@ -121,23 +121,56 @@ export default function UploadVideoPage() {
     setIsUploading(true);
 
     try {
-      // Step 1: Upload files to R2
-      setUploadStep("Uploading files…");
-      const formData = new FormData();
-      formData.append("videoFile", videoFile);
-      formData.append("thumbnailFile", thumbnailFile);
-
-      const uploadRes = await fetch("/api/upload", {
+      // Step 1: Request pre-signed URLs
+      setUploadStep("Generating secure upload links…");
+      const presignRes = await fetch("/api/upload", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          videoFilename: videoFile.name,
+          videoContentType: videoFile.type || "video/mp4",
+          thumbnailFilename: thumbnailFile.name,
+          thumbnailContentType: thumbnailFile.type || "image/jpeg",
+        }),
       });
 
-      if (!uploadRes.ok) {
-        const err = await uploadRes.json();
-        throw new Error(err.error || "Upload failed");
+      if (!presignRes.ok) {
+        const err = await presignRes.json();
+        throw new Error(err.error || "Failed to get upload links");
       }
 
-      const uploadData: UploadResponse = await uploadRes.json();
+      const presignData = await presignRes.json();
+
+      // Step 1.5: Upload video and thumbnail directly to R2
+      setUploadStep("Uploading video securely to storage…");
+      const videoUploadRes = await fetch(presignData.videoPresignedUrl, {
+        method: "PUT",
+        body: videoFile,
+        headers: {
+          "Content-Type": videoFile.type || "video/mp4",
+        },
+      });
+
+      if (!videoUploadRes.ok) throw new Error("Failed to upload video file directly to storage");
+
+      setUploadStep("Uploading thumbnail…");
+      const thumbnailUploadRes = await fetch(presignData.thumbnailPresignedUrl, {
+        method: "PUT",
+        body: thumbnailFile,
+        headers: {
+          "Content-Type": thumbnailFile.type || "image/jpeg",
+        },
+      });
+
+      if (!thumbnailUploadRes.ok) throw new Error("Failed to upload thumbnail file directly to storage");
+
+      // The metadata is what we'll save to Supabase
+      const uploadData = {
+        videoUrl: presignData.videoPublicUrl,
+        videoKey: presignData.videoKey,
+        thumbnailUrl: presignData.thumbnailPublicUrl,
+        thumbnailKey: presignData.thumbnailKey,
+      };
 
       // Step 2: Save metadata to Supabase
       setUploadStep("Saving video info…");
