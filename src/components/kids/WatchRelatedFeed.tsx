@@ -51,7 +51,10 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
   return (
     <>
       {/* Category Chips for Related Videos */}
-      <div className="bg-white border-b border-border/40 py-2">
+      <div 
+        className="sticky z-40 bg-white/95 backdrop-blur-md border-b border-border/40 py-2 shadow-sm"
+        style={{ top: 'min(56.25vw, 252px)' }}
+      >
         <CategoryChips
           categories={categoryLabels}
           selectedCategory={currentLabel}
