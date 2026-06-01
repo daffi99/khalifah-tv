@@ -21,7 +21,7 @@ export async function addCategory(formData: FormData) {
     if (error.code === '23505') { // Unique constraint violation
       return { error: "A category with this name already exists" };
     }
-    return { error: "Failed to add category" };
+    return { error: `Failed to add category: ${error.message}` };
   }
 
   revalidatePath("/admin/categories");
@@ -37,7 +37,7 @@ export async function deleteCategory(id: string) {
     .eq("id", id);
 
   if (error) {
-    return { error: "Failed to delete category" };
+    return { error: `Failed to delete category: ${error.message}` };
   }
 
   revalidatePath("/admin/categories");
