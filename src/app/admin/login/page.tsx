@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loginWithPin } from "./actions";
 import { Lock, AlertCircle } from "lucide-react";
 
@@ -43,10 +43,29 @@ export default function AdminLogin() {
     }
   };
 
+
+
   // Auto-submit when 4 digits are entered
-  if (pin.length === 4 && !loading && !error) {
-    handleSubmit();
-  }
+  useEffect(() => {
+    if (pin.length === 4 && !loading && !error) {
+      const submit = async () => {
+        setLoading(true);
+        setError("");
+        
+        const formData = new FormData();
+        formData.append("pin", pin);
+        
+        const result = await loginWithPin(formData);
+        
+        if (result?.error) {
+          setError(result.error);
+          setPin("");
+          setLoading(false);
+        }
+      };
+      submit();
+    }
+  }, [pin, loading, error]);
 
   return (
     <div className="min-h-screen bg-muted/20 flex flex-col items-center justify-center p-4 selection:bg-primary/30">
