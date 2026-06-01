@@ -143,3 +143,14 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Override video.js MinimalVideoSkin default rounded corners and borders */
+.video-js, 
+.video-js.vjs-minimal-skin,
+.vjs-minimal-skin,
+.video-js .vjs-tech,
+.vjs-tech {
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
