@@ -10,8 +10,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Transpile Vidstack for SSR compatibility
-  transpilePackages: ["@vidstack/react"],
   turbopack: {
     root: ".",
   },
