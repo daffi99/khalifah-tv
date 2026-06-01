@@ -15,6 +15,7 @@ export async function loginWithPin(formData: FormData) {
   const { data: settingsArray, error } = await supabase
     .from("settings")
     .select("admin_pin")
+    .order("updated_at", { ascending: false })
     .limit(1);
 
   if (error || !settingsArray || settingsArray.length === 0) {
@@ -28,7 +29,7 @@ export async function loginWithPin(formData: FormData) {
     const cookieStore = await cookies();
     cookieStore.set("admin_session", "authenticated", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production" && process.env.VERCEL === "1",
       maxAge: 60 * 60 * 24 * 7, // 1 week
       path: "/",
     });
