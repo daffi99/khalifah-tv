@@ -12,15 +12,16 @@ export async function loginWithPin(formData: FormData) {
   }
 
   // Fetch the correct PIN from the settings table
-  const { data: settings, error } = await supabase
+  const { data: settingsArray, error } = await supabase
     .from("settings")
     .select("admin_pin")
-    .limit(1)
-    .single();
+    .limit(1);
 
-  if (error || !settings) {
+  if (error || !settingsArray || settingsArray.length === 0) {
     return { error: "Could not verify PIN. Please try again." };
   }
+
+  const settings = settingsArray[0];
 
   if (pin === settings.admin_pin) {
     // Set a secure HTTP-only cookie that the middleware will read
