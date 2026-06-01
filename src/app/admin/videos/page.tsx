@@ -20,7 +20,6 @@ import {
 import { toast } from "sonner";
 
 import { supabase } from "@/lib/supabase/client";
-import { getCategoryLabel } from "@/lib/constants";
 import type { Video, VideoStatus } from "@/lib/types";
 
 import { AdminHeader } from "@/components/admin/AdminHeader";
@@ -55,6 +54,7 @@ export default function ManageVideosPage() {
   const router = useRouter();
 
   const [videos, setVideos] = useState<Video[]>([]);
+  const [categories, setCategories] = useState<{slug: string, name: string}[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<FilterStatus>("all");
@@ -68,6 +68,9 @@ export default function ManageVideosPage() {
 
   const fetchVideos = useCallback(async () => {
     try {
+      const { data: catData } = await supabase.from("categories").select("slug, name");
+      if (catData) setCategories(catData);
+
       const { data, error } = await supabase
         .from("videos")
         .select("*")
@@ -262,7 +265,7 @@ export default function ManageVideosPage() {
                           variant="outline"
                           className="text-[10px] px-1.5 py-0 font-medium"
                         >
-                          {getCategoryLabel(video.category)}
+                          {categories.find(c => c.slug === video.category)?.name || video.category}
                         </Badge>
                         <StatusBadge status={video.status} />
                       </div>

@@ -6,14 +6,14 @@
 // Handles file selection, upload to R2 via /api/upload,
 // then saves metadata to Supabase.
 
-import { useState, useRef, type ChangeEvent, type FormEvent } from "react";
+import { useState, useRef, useEffect, type ChangeEvent, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Upload, FileVideo, ImageIcon, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { supabase } from "@/lib/supabase/client";
-import { CATEGORY_OPTIONS, STATUS_OPTIONS } from "@/lib/constants";
+import { STATUS_OPTIONS } from "@/lib/constants";
 import type { VideoFormData, UploadResponse } from "@/lib/types";
 
 import { AdminHeader } from "@/components/admin/AdminHeader";
@@ -52,6 +52,20 @@ export default function UploadVideoPage() {
   // Upload state
   const [isUploading, setIsUploading] = useState(false);
   const [uploadStep, setUploadStep] = useState("");
+
+  // Dynamic Categories state
+  const [categories, setCategories] = useState<{name: string, slug: string}[]>([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const { data } = await supabase
+        .from("categories")
+        .select("name, slug")
+        .order("name", { ascending: true });
+      if (data) setCategories(data);
+    }
+    fetchCategories();
+  }, []);
 
   function handleInputChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -261,9 +275,9 @@ export default function UploadVideoPage() {
                   <SelectValue placeholder="Select…" />
                 </SelectTrigger>
                 <SelectContent>
-                  {CATEGORY_OPTIONS.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
+                  {categories.map((opt) => (
+                    <SelectItem key={opt.slug} value={opt.slug}>
+                      {opt.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

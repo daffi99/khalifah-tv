@@ -6,9 +6,11 @@
 // TODO: Connect to Supabase for persistent settings.
 
 import { useState } from "react";
-import { Settings2, Play, Palette, Info } from "lucide-react";
+import { Settings2, Play, Palette, Info, LogOut } from "lucide-react";
 
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { PinEditor } from "./PinEditor";
+import { logoutAdmin } from "../login/actions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -55,6 +57,9 @@ export default function SettingsPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* PIN Editor */}
+        <PinEditor />
 
         {/* Playback Settings */}
         <Card>
@@ -111,11 +116,18 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        <p className="text-xs text-center text-muted-foreground pt-4">
+        <p className="text-xs text-center text-muted-foreground pt-4 mb-4">
           Settings are currently using local state only.
           <br />
           Persistent settings will be connected later.
         </p>
+
+        <form action={logoutAdmin} className="w-full pb-8">
+          <button type="submit" className="w-full p-4 flex items-center justify-center gap-2 text-destructive font-bold bg-destructive/10 hover:bg-destructive/20 rounded-2xl transition-colors active:scale-95">
+            <LogOut className="w-5 h-5" />
+            Logout of Admin Dashboard
+          </button>
+        </form>
       </main>
     </div>
   );

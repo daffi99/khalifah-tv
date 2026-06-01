@@ -11,7 +11,7 @@ import { Save, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { supabase } from "@/lib/supabase/client";
-import { CATEGORY_OPTIONS, STATUS_OPTIONS } from "@/lib/constants";
+import { STATUS_OPTIONS } from "@/lib/constants";
 import type { Video, VideoFormData } from "@/lib/types";
 
 import { AdminHeader } from "@/components/admin/AdminHeader";
@@ -47,10 +47,20 @@ export default function EditVideoPage() {
     status: "draft",
   });
 
-  // Fetch video data
+  const [categories, setCategories] = useState<{name: string, slug: string}[]>([]);
+
+  // Fetch video data and categories
   useEffect(() => {
-    async function fetchVideo() {
+    async function fetchData() {
       try {
+        // Fetch categories first
+        const { data: catData } = await supabase
+          .from("categories")
+          .select("name, slug")
+          .order("name", { ascending: true });
+        if (catData) setCategories(catData);
+
+        // Fetch video
         const { data, error } = await supabase
           .from("videos")
           .select("*")
@@ -79,7 +89,7 @@ export default function EditVideoPage() {
       }
     }
 
-    fetchVideo();
+    fetchData();
   }, [videoId, router]);
 
   function handleInputChange(
@@ -215,9 +225,9 @@ export default function EditVideoPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {CATEGORY_OPTIONS.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
+                  {categories.map((opt) => (
+                    <SelectItem key={opt.slug} value={opt.slug}>
+                      {opt.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

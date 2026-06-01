@@ -15,16 +15,7 @@ import {
   PlayCircle,
 } from "lucide-react";
 
-/**
- * Video category options for select inputs.
- */
-export const CATEGORY_OPTIONS = [
-  { value: "songs", label: "Songs", icon: Music },
-  { value: "learning", label: "Learning", icon: BookOpen },
-  { value: "stories", label: "Stories", icon: BookHeart },
-  { value: "dua", label: "Du'a", icon: HandHeart },
-  { value: "animals", label: "Animals", icon: PawPrint },
-] as const;
+// Dynamic categories are now fetched from Supabase.
 
 /**
  * Video status options for select inputs.
@@ -58,6 +49,12 @@ export const ADMIN_MENU_ITEMS = [
     icon: Clock,
   },
   {
+    title: "Categories",
+    description: "Manage dynamic video categories",
+    href: "/admin/categories",
+    icon: BookOpen,
+  },
+  {
     title: "Settings",
     description: "App preferences and configuration",
     href: "/admin/settings",
@@ -71,9 +68,4 @@ export const ADMIN_MENU_ITEMS = [
   },
 ] as const;
 
-/**
- * Get category label from value.
- */
-export function getCategoryLabel(value: string): string {
-  return CATEGORY_OPTIONS.find((c) => c.value === value)?.label ?? value;
-}
+

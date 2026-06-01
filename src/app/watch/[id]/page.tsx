@@ -34,6 +34,12 @@ export default async function WatchPage({ params }: WatchPageProps) {
     .neq("id", id)
     .order("created_at", { ascending: false });
 
+  // Fetch dynamic categories
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("*")
+    .order("created_at", { ascending: true });
+
   // Generate a mock view count and date for the YouTube look
   const mockViews = Math.floor(Math.random() * 900 + 100) + "K";
   const mockDate = "6 days ago";
@@ -90,7 +96,10 @@ export default async function WatchPage({ params }: WatchPageProps) {
 
         {/* Interactive Related Videos Feed */}
         <div className="pb-24">
-          <WatchRelatedFeed initialVideos={shuffledRelatedVideos} />
+          <WatchRelatedFeed 
+            initialVideos={shuffledRelatedVideos} 
+            categories={categories || []}
+          />
         </div>
 
       </div>

@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { CategoryChips } from "./CategoryChips";
 import { KidsVideoCard } from "./KidsVideoCard";
-import { CATEGORY_OPTIONS } from "@/lib/constants";
 
-// Define the shape of our video data
 interface Video {
   id: string;
   title: string;
@@ -14,34 +12,48 @@ interface Video {
   thumbnail_url: string;
 }
 
-interface KidsFeedProps {
-  initialVideos: Video[];
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
 }
 
-const CATEGORIES = ["All", ...CATEGORY_OPTIONS.map((c) => c.label)];
+interface KidsFeedProps {
+  initialVideos: Video[];
+  categories: Category[];
+}
 
-export function KidsFeed({ initialVideos }: KidsFeedProps) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+export function KidsFeed({ initialVideos, categories }: KidsFeedProps) {
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState("all");
+
+  const categoryLabels = ["All", ...categories.map((c) => c.name)];
 
   const filteredVideos = initialVideos.filter((video) => {
-    if (selectedCategory === "All") return true;
-    
-    // Find the category option that matches the selected label
-    const selectedOption = CATEGORY_OPTIONS.find(c => c.label === selectedCategory);
-    if (!selectedOption) return false;
-
-    // Compare the database category value with the option's value
-    return video.category === selectedOption.value;
+    if (selectedCategorySlug === "all") return true;
+    return video.category === selectedCategorySlug;
   });
+
+  const handleSelect = (label: string) => {
+    if (label === "All") {
+      setSelectedCategorySlug("all");
+    } else {
+      const cat = categories.find((c) => c.name === label);
+      if (cat) setSelectedCategorySlug(cat.slug);
+    }
+  };
+
+  const currentLabel = selectedCategorySlug === "all" 
+    ? "All" 
+    : categories.find(c => c.slug === selectedCategorySlug)?.name || "All";
 
   return (
     <div className="flex-1 flex flex-col min-h-0">
       {/* Categories Bar */}
       <div className="sticky top-0 z-30 bg-white pb-2 pt-2 border-b border-border/40">
         <CategoryChips
-          categories={CATEGORIES}
-          selectedCategory={selectedCategory}
-          onSelect={setSelectedCategory}
+          categories={categoryLabels}
+          selectedCategory={currentLabel}
+          onSelect={handleSelect}
         />
       </div>
 

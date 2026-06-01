@@ -14,6 +14,12 @@ export default async function Home() {
     .eq("status", "published")
     .order("created_at", { ascending: false });
 
+  // Fetch dynamic categories
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("*")
+    .order("created_at", { ascending: true });
+
   // Shuffle videos for a completely random feed experience
   const shuffledVideos = videos 
     ? [...videos].sort(() => Math.random() - 0.5) 
@@ -26,7 +32,7 @@ export default async function Home() {
         {/* Content Wrapper */}
         <div className="relative z-10 flex flex-col flex-1 h-screen overflow-hidden pt-2">
           <KidsHeader />
-          <KidsFeed initialVideos={shuffledVideos} />
+          <KidsFeed initialVideos={shuffledVideos} categories={categories || []} />
         </div>
 
         <BottomNav />
