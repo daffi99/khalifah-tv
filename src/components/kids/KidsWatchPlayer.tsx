@@ -18,7 +18,7 @@ export function KidsWatchPlayer({ title, src, poster }: KidsWatchPlayerProps) {
   const safePoster = getProxyUrl(poster);
 
   return (
-    <div className="w-full h-full bg-black">
+    <div className="w-full h-full bg-white">
       <Player.Provider>
         <MinimalVideoSkin poster={safePoster}>
           <Video src={safeSrc} playsInline autoPlay />
