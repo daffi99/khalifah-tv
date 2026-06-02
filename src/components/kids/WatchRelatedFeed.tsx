@@ -53,9 +53,9 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
     : categories.find(c => c.slug === selectedCategorySlug)?.name || "All";
 
   return (
-    <div className="flex-1 flex flex-col min-h-0">
-      {/* Category Chips for Related Videos */}
-      <div className="bg-white border-b border-border/40 py-2 shadow-sm shrink-0">
+    <div className="flex-1 flex flex-col min-h-0 bg-black">
+      {/* Category Chips for Related Videos (Dark Mode, Smaller) */}
+      <div className="bg-black py-1 shadow-sm shrink-0">
         <CategoryChips
           categories={categoryLabels}
           selectedCategory={currentLabel}
@@ -63,22 +63,24 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
         />
       </div>
 
-      {/* Related Videos Feed (Scrolling) */}
-      <div className="flex-1 overflow-y-auto bg-muted/10 pb-8 pt-2 scrollbar-hide">
-        <div className="flex flex-col gap-0 sm:gap-4">
+      {/* Related Videos Feed (Horizontal Scroll) */}
+      <div className="flex-1 overflow-x-auto overflow-y-hidden bg-black pb-8 pt-2 px-2 scrollbar-hide flex items-center">
+        <div className="flex flex-row gap-3 sm:gap-4 w-max px-2">
           {filteredVideos && filteredVideos.length > 0 ? (
             filteredVideos.map((rv) => (
-              <KidsVideoCard
-                key={rv.id}
-                id={rv.id}
-                title={rv.title}
-                category={rv.category}
-                duration={rv.duration}
-                thumbnailUrl={rv.thumbnail_url}
-              />
+              <div key={rv.id} className="w-[220px] sm:w-[280px] shrink-0">
+                <KidsVideoCard
+                  id={rv.id}
+                  title={rv.title}
+                  category={rv.category}
+                  duration={rv.duration}
+                  thumbnailUrl={rv.thumbnail_url}
+                  isDark={true}
+                />
+              </div>
             ))
           ) : (
-            <p className="text-center text-muted-foreground py-8 text-sm">No related videos found.</p>
+            <p className="text-center text-white/50 py-8 text-xs w-full">No related videos found.</p>
           )}
         </div>
       </div>

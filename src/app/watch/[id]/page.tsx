@@ -52,53 +52,57 @@ export default async function WatchPage({ params }: WatchPageProps) {
   return (
     <main className="min-h-screen bg-white flex justify-center selection:bg-primary/30">
       {/* Full-width responsive constraint wrapper */}
-      <div className="w-full bg-white relative flex flex-col lg:flex-row h-[100dvh] shadow-2xl overflow-hidden">
+      <div className="w-full bg-black relative flex flex-col h-[100dvh] overflow-hidden">
         
-        {/* Left Column: Player & Info (fixed width on desktop) */}
-        <div className="w-full lg:w-[65%] xl:w-[70%] flex flex-col shrink-0 border-r border-border/40 overflow-y-auto overflow-x-hidden">
-          {/* Fixed Player at the Top (relative to this column) */}
-          <div className="sticky top-0 z-50 w-full bg-black aspect-video shrink-0 shadow-sm">
-            <KidsWatchPlayer 
-              title={video.title} 
-              src={video.video_url} 
-              poster={video.thumbnail_url} 
-            />
+        {/* Top Section: Player & Info */}
+        <div className="w-full flex flex-col shrink-0">
+          {/* Fixed Player at the Top */}
+          <div className="w-full bg-black aspect-video sm:max-h-[65vh] flex justify-center shrink-0 shadow-sm relative z-20">
+            <div className="w-full max-w-5xl">
+              <KidsWatchPlayer 
+                title={video.title} 
+                src={video.video_url} 
+                poster={video.thumbnail_url} 
+              />
+            </div>
           </div>
 
-          {/* Video Info Section */}
-          <div className="px-4 py-4 lg:py-6">
-            <h1 className="text-xl lg:text-2xl font-bold text-foreground leading-tight mb-2">
-              {video.title}
-            </h1>
-            <div className="flex items-center text-sm text-muted-foreground font-medium mb-4 lg:mb-6">
-              <span>{mockViews} views</span>
-              <span className="mx-2">•</span>
-              <span>{mockDate}</span>
-              <span className="mx-2">•</span>
-              <button className="font-bold text-foreground">more...</button>
+          {/* Video Info Section (Smaller text, Dark mode) */}
+          <div className="px-4 py-2 lg:py-3 w-full max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h1 className="text-sm lg:text-base font-bold text-white leading-tight mb-1">
+                {video.title}
+              </h1>
+              <div className="flex items-center text-[10px] lg:text-xs text-white/70 font-medium">
+                <span>{mockViews} views</span>
+                <span className="mx-1.5">•</span>
+                <span>{mockDate}</span>
+                <span className="mx-1.5">•</span>
+                <button className="font-bold text-white">more...</button>
+              </div>
             </div>
 
             {/* Channel Info */}
-            <div className="flex items-center justify-between bg-muted/20 p-3 lg:p-4 rounded-2xl border border-border/40">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center text-white font-bold text-[10px] shadow-sm">
                   KT
                 </div>
                 <div>
-                  <h3 className="font-bold text-base lg:text-lg text-foreground">Khalifah TV</h3>
-                  <p className="text-xs lg:text-sm text-muted-foreground">1.2M subscribers</p>
+                  <h3 className="font-bold text-xs lg:text-sm text-white">Khalifah TV</h3>
+                  <p className="text-[10px] text-white/70">1.2M subscribers</p>
                 </div>
               </div>
               
-              <button className="bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-bold active:scale-95 transition-transform shadow-md hover:bg-foreground/90">
+              <button className="bg-red-600 text-white px-3 py-1.5 lg:px-4 lg:py-2 rounded-full text-[10px] lg:text-xs font-bold active:scale-95 transition-transform shadow-md uppercase tracking-wide">
                 Subscribe
               </button>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Interactive Related Videos Feed */}
-        <div className="flex-1 flex flex-col min-h-0 bg-muted/10 lg:bg-white pb-16 lg:pb-0 relative z-10">
+        {/* Bottom Section: Interactive Related Videos Feed */}
+        <div className="flex-1 flex flex-col min-h-0 bg-black relative z-10 w-full max-w-5xl mx-auto pb-16 lg:pb-4 border-t border-white/10">
           <WatchRelatedFeed 
             initialVideos={shuffledRelatedVideos} 
             categories={categories || []}
