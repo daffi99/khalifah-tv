@@ -24,7 +24,11 @@ interface WatchRelatedFeedProps {
 }
 
 export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeedProps) {
-  const [selectedCategorySlug, setSelectedCategorySlug] = useState("all");
+  const defaultSlug = categories.some(c => c.slug.toLowerCase().includes('learning')) 
+    ? categories.find(c => c.slug.toLowerCase().includes('learning'))!.slug 
+    : "all";
+
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState(defaultSlug);
 
   const categoryLabels = ["All", ...categories.map((c) => c.name)];
 

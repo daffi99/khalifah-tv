@@ -27,8 +27,8 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-muted/20 flex justify-center selection:bg-primary/30">
-      {/* Mobile constraint wrapper */}
-      <div className="w-full max-w-md bg-white relative flex flex-col min-h-screen shadow-2xl overflow-hidden">
+      {/* Full-width responsive constraint wrapper */}
+      <div className="w-full bg-white relative flex flex-col min-h-screen shadow-2xl overflow-hidden">
         {/* Content Wrapper */}
         <div className="relative z-10 flex flex-col flex-1 h-screen overflow-hidden pt-2">
           <KidsHeader />

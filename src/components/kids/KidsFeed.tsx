@@ -24,7 +24,11 @@ interface KidsFeedProps {
 }
 
 export function KidsFeed({ initialVideos, categories }: KidsFeedProps) {
-  const [selectedCategorySlug, setSelectedCategorySlug] = useState("all");
+  const defaultSlug = categories.some(c => c.slug.toLowerCase().includes('learning')) 
+    ? categories.find(c => c.slug.toLowerCase().includes('learning'))!.slug 
+    : "all";
+
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState(defaultSlug);
 
   const categoryLabels = ["All", ...categories.map((c) => c.name)];
 
@@ -58,10 +62,10 @@ export function KidsFeed({ initialVideos, categories }: KidsFeedProps) {
       </div>
 
       {/* Video Feed */}
-      <div className="flex-1 overflow-y-auto pb-32 pt-0 scrollbar-hide bg-muted/10">
-        <div className="flex flex-col gap-0 sm:gap-4">
+      <div className="flex-1 overflow-y-auto pb-32 pt-2 sm:pt-4 px-4 sm:px-6 scrollbar-hide bg-muted/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
           {filteredVideos.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground font-medium">
+            <div className="text-center py-12 text-muted-foreground font-medium col-span-full">
               No videos found for this category yet!
             </div>
           ) : (

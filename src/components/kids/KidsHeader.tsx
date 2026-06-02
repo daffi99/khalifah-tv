@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Settings, PlayCircle } from "lucide-react";
 
 export function KidsHeader() {
   const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   return (
     <>
@@ -19,11 +21,25 @@ export function KidsHeader() {
 
         {/* Parent Settings Button */}
         <button
-          onClick={() => router.push("/admin")}
-          className="p-2 rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground transition-all active:scale-95"
+          disabled={isLoggingOut}
+          onClick={async () => {
+            setIsLoggingOut(true);
+            try {
+              await fetch("/api/admin/logout", { method: "POST" });
+              router.push("/admin");
+            } catch (err) {
+              console.error("Logout failed:", err);
+              router.push("/admin");
+            }
+          }}
+          className="p-2 rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground transition-all active:scale-95 disabled:opacity-50"
           aria-label="Parent Settings"
         >
-          <Settings className="h-6 w-6" />
+          {isLoggingOut ? (
+            <div className="h-6 w-6 border-2 border-muted-foreground border-t-transparent rounded-full animate-spin" />
+          ) : (
+            <Settings className="h-6 w-6" />
+          )}
         </button>
       </header>
     </>
