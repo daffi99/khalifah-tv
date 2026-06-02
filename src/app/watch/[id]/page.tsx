@@ -57,8 +57,8 @@ export default async function WatchPage({ params }: WatchPageProps) {
         {/* Top Section: Player & Info */}
         <div className="w-full flex flex-col shrink-0">
           {/* Fixed Player at the Top */}
-          <div className="w-full bg-black aspect-video landscape:h-[65vh] landscape:aspect-auto flex justify-center shrink-0 shadow-sm relative z-20">
-            <div className="w-full h-full max-w-5xl flex justify-center">
+          <div className="w-full bg-black aspect-video landscape:max-h-[55dvh] landscape:aspect-auto flex justify-center shrink-0 shadow-sm relative z-20">
+            <div className="w-full h-full max-w-5xl flex justify-center bg-black">
               <KidsWatchPlayer 
                 title={video.title} 
                 src={video.video_url} 

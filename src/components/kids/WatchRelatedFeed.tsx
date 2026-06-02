@@ -64,11 +64,11 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
       </div>
 
       {/* Related Videos Feed (Horizontal Scroll) */}
-      <div className="flex-1 overflow-x-auto overflow-y-hidden bg-muted/10 pb-8 pt-2 px-2 scrollbar-hide flex items-center">
+      <div className="flex-1 overflow-x-auto overflow-y-hidden bg-muted/10 pb-8 landscape:pb-2 pt-2 px-2 scrollbar-hide flex items-center">
         <div className="flex flex-row gap-3 sm:gap-4 w-max px-2">
           {filteredVideos && filteredVideos.length > 0 ? (
             filteredVideos.map((rv) => (
-              <div key={rv.id} className="w-[220px] sm:w-[280px] shrink-0">
+              <div key={rv.id} className="w-[220px] sm:w-[280px] landscape:w-[160px] lg:landscape:w-[220px] shrink-0">
                 <KidsVideoCard
                   id={rv.id}
                   title={rv.title}
