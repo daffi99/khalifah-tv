@@ -53,9 +53,9 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
     : categories.find(c => c.slug === selectedCategorySlug)?.name || "All";
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-black">
-      {/* Category Chips for Related Videos (Dark Mode, Smaller) */}
-      <div className="bg-black py-1 shadow-sm shrink-0">
+    <div className="flex-1 flex flex-col min-h-0 bg-white">
+      {/* Category Chips for Related Videos (Hidden on landscape to save space) */}
+      <div className="bg-white py-1 shadow-sm shrink-0 landscape:hidden">
         <CategoryChips
           categories={categoryLabels}
           selectedCategory={currentLabel}
@@ -64,7 +64,7 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
       </div>
 
       {/* Related Videos Feed (Horizontal Scroll) */}
-      <div className="flex-1 overflow-x-auto overflow-y-hidden bg-black pb-8 pt-2 px-2 scrollbar-hide flex items-center">
+      <div className="flex-1 overflow-x-auto overflow-y-hidden bg-muted/10 pb-8 pt-2 px-2 scrollbar-hide flex items-center">
         <div className="flex flex-row gap-3 sm:gap-4 w-max px-2">
           {filteredVideos && filteredVideos.length > 0 ? (
             filteredVideos.map((rv) => (
@@ -75,12 +75,12 @@ export function WatchRelatedFeed({ initialVideos, categories }: WatchRelatedFeed
                   category={rv.category}
                   duration={rv.duration}
                   thumbnailUrl={rv.thumbnail_url}
-                  isDark={true}
+                  isDark={false}
                 />
               </div>
             ))
           ) : (
-            <p className="text-center text-white/50 py-8 text-xs w-full">No related videos found.</p>
+            <p className="text-center text-muted-foreground py-8 text-xs w-full">No related videos found.</p>
           )}
         </div>
       </div>

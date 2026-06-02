@@ -52,13 +52,13 @@ export default async function WatchPage({ params }: WatchPageProps) {
   return (
     <main className="min-h-screen bg-white flex justify-center selection:bg-primary/30">
       {/* Full-width responsive constraint wrapper */}
-      <div className="w-full bg-black relative flex flex-col h-[100dvh] overflow-hidden">
+      <div className="w-full bg-white relative flex flex-col h-[100dvh] overflow-hidden">
         
         {/* Top Section: Player & Info */}
         <div className="w-full flex flex-col shrink-0">
           {/* Fixed Player at the Top */}
-          <div className="w-full bg-black aspect-video sm:max-h-[65vh] flex justify-center shrink-0 shadow-sm relative z-20">
-            <div className="w-full max-w-5xl">
+          <div className="w-full bg-black aspect-video landscape:h-[65vh] landscape:aspect-auto flex justify-center shrink-0 shadow-sm relative z-20">
+            <div className="w-full h-full max-w-5xl flex justify-center">
               <KidsWatchPlayer 
                 title={video.title} 
                 src={video.video_url} 
@@ -67,18 +67,18 @@ export default async function WatchPage({ params }: WatchPageProps) {
             </div>
           </div>
 
-          {/* Video Info Section (Smaller text, Dark mode) */}
-          <div className="px-4 py-2 lg:py-3 w-full max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          {/* Video Info Section (Hidden on landscape to save space) */}
+          <div className="px-4 py-2 lg:py-3 w-full max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2 landscape:hidden">
             <div>
-              <h1 className="text-sm lg:text-base font-bold text-white leading-tight mb-1">
+              <h1 className="text-sm lg:text-base font-bold text-foreground leading-tight mb-1">
                 {video.title}
               </h1>
-              <div className="flex items-center text-[10px] lg:text-xs text-white/70 font-medium">
+              <div className="flex items-center text-[10px] lg:text-xs text-muted-foreground font-medium">
                 <span>{mockViews} views</span>
                 <span className="mx-1.5">•</span>
                 <span>{mockDate}</span>
                 <span className="mx-1.5">•</span>
-                <button className="font-bold text-white">more...</button>
+                <button className="font-bold text-foreground">more...</button>
               </div>
             </div>
 
@@ -89,8 +89,8 @@ export default async function WatchPage({ params }: WatchPageProps) {
                   KT
                 </div>
                 <div>
-                  <h3 className="font-bold text-xs lg:text-sm text-white">Khalifah TV</h3>
-                  <p className="text-[10px] text-white/70">1.2M subscribers</p>
+                  <h3 className="font-bold text-xs lg:text-sm text-foreground">Khalifah TV</h3>
+                  <p className="text-[10px] text-muted-foreground">1.2M subscribers</p>
                 </div>
               </div>
               
@@ -102,7 +102,7 @@ export default async function WatchPage({ params }: WatchPageProps) {
         </div>
 
         {/* Bottom Section: Interactive Related Videos Feed */}
-        <div className="flex-1 flex flex-col min-h-0 bg-black relative z-10 w-full max-w-5xl mx-auto pb-16 lg:pb-4 border-t border-white/10">
+        <div className="flex-1 flex flex-col min-h-0 bg-white relative z-10 w-full max-w-5xl mx-auto pb-16 landscape:pb-2 border-t border-border/40">
           <WatchRelatedFeed 
             initialVideos={shuffledRelatedVideos} 
             categories={categories || []}

@@ -3,7 +3,7 @@ import { Home, Search, Star, User } from "lucide-react";
 
 export function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 flex justify-center pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 flex justify-center pb-safe landscape:hidden">
       <div className="w-full max-w-md bg-white/90 backdrop-blur-xl border-t border-white/40 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.1)] px-6 py-3 flex justify-between items-center rounded-t-[32px]">
         <Link href="/" className="flex flex-col items-center gap-1 group">
           <div className="p-2 rounded-2xl bg-primary/10 text-primary transition-all group-active:scale-95">
