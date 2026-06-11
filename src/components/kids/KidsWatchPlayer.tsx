@@ -22,12 +22,13 @@ export function KidsWatchPlayer({ title, src, poster }: KidsWatchPlayerProps) {
 
   useEffect(() => {
     const ua = window.navigator.userAgent || "";
-    // Detect older iOS versions (iOS 13 and below) and older WebKit engines
-    const isOldIOS = /iP(hone|od|ad).*OS (7|8|9|10|11|12|13)_/i.test(ua);
-    const isOldWebKit = /AppleWebKit\/([1-5]\d\d|60[0-4])\.?/i.test(ua);
+    // Detect standard iOS devices
+    const isIOS = /iP(hone|od|ad)/i.test(ua);
+    // Detect iPadOS 13+ which requests desktop site by default and poses as a Mac
+    const isIPadOS = ua.includes("Macintosh") && window.navigator.maxTouchPoints !== undefined && window.navigator.maxTouchPoints > 1;
     
-    // Also catch old Safari if needed, but the above covers most old iPads
-    if (isOldIOS || isOldWebKit) {
+    // We will use the native player for all iPads/iPhones to guarantee the play button works
+    if (isIOS || isIPadOS) {
       setIsOldDevice(true);
     }
   }, []);
