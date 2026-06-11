@@ -22,13 +22,15 @@ export function KidsWatchPlayer({ title, src, poster }: KidsWatchPlayerProps) {
 
   useEffect(() => {
     const ua = window.navigator.userAgent || "";
-    // Detect standard iOS devices
-    const isIOS = /iP(hone|od|ad)/i.test(ua);
-    // Detect iPadOS 13+ which requests desktop site by default and poses as a Mac
-    const isIPadOS = ua.includes("Macintosh") && window.navigator.maxTouchPoints !== undefined && window.navigator.maxTouchPoints > 1;
     
-    // We will use the native player for all iPads/iPhones to guarantee the play button works
-    if (isIOS || isIPadOS) {
+    // iPads explicitly say "iPad" in old versions. 
+    // In iPadOS 13+, they request desktop sites and claim to be a "Macintosh", 
+    // but they are the only Macs with multi-touch screens (maxTouchPoints > 1).
+    const isIPad = /iPad/i.test(ua) || (ua.includes("Macintosh") && navigator.maxTouchPoints > 1);
+    
+    // Force native HTML5 player ONLY on iPads due to their strict desktop-mode webkit rules.
+    // iPhones and other devices can safely use the modern Video.js player.
+    if (isIPad) {
       setIsOldDevice(true);
     }
   }, []);
